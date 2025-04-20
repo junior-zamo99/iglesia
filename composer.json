@@ -1,0 +1,21 @@
+{
+    "name": "junio/iglesia",
+    "description": "apliacion web 3 capas",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Iglesia\\Presentacion\\": "presentacion/",
+        "Iglesia\\Negocio\\": "negocio/",
+        "Iglesia\\Datos\\": "datos/"
+
+
+        }
+    },
+    "authors": [
+        {
+            "name": "Junior Zamo",
+            "email": "junior.zf.99@gmail.com"
+        }
+    ],
+    "require": {}
+}
