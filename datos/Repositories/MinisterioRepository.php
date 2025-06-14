@@ -1,5 +1,5 @@
 <?php
-// datos/repositories/MinisterioRepository.php
+
 
 namespace Iglesia\Datos\Repositories;
 

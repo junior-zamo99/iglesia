@@ -4,13 +4,13 @@ namespace Iglesia\Negocio\Entidades;
 
 class Miembro {
     private $id;
-    private $usuarioId;
-    private $estadoCivil;
+    private $nombre;
+    private $estado_civil;
     private $telefono;
     private $direccion;
-    private $fechaNacimiento;
-    private $usuario;
-    private $ministerios = [];
+    private $fecha_nacimiento;
+    private $email;
+    private $fecha_registro;
 
     public function __construct(
         $nombre = null,
@@ -32,7 +32,7 @@ class Miembro {
         $this->fecha_registro = $fecha_registro;
     }
 
-    // Getters y Setters
+    
     public function getId() { return $this->id; }
     public function setId($id) { $this->id = $id; }
 
@@ -61,8 +61,6 @@ class Miembro {
     public function setFechaRegistro($fecha_registro) { $this->fecha_registro = $fecha_registro; }
 
  
-
-    // Métodos para ministerios
     public function getMinisterios() { return $this->ministerios; }
     public function addMinisterio(Ministerio $ministerio) { 
         $this->ministerios[] = $ministerio; 

@@ -1,10 +1,7 @@
 <?php
-// public/index.php
 
-// Carga el autoloader de Composer
 require_once __DIR__ . '/../../vendor/autoload.php';
 
-// Carga las rutas
 $rutas = require_once __DIR__ . '/../../config/rutas.php';
 
 

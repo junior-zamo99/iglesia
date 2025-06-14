@@ -82,7 +82,7 @@ class ControladorBautizo {
             
             $miembros = $this->miembroService->obtenerTodos();
             
-            // Filtrar miembros que no están bautizados
+         
             $miembrosFiltrados = [];
             foreach ($miembros as $miembro) {
                 $bautizo = $this->bautizoService->obtenerPorMiembroId($miembro->getId());

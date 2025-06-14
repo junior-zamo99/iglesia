@@ -18,7 +18,7 @@ class Bautizo {
         $this->pastor = $pastor;
     }
     
-    // Getters
+    
     public function getId() {
         return $this->id;
     }
@@ -39,7 +39,7 @@ class Bautizo {
         return $this->pastor;
     }
     
-    // Setters
+    
     public function setId($id) {
         $this->id = $id;
         return $this;

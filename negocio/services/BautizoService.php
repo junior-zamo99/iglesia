@@ -50,10 +50,10 @@ class BautizoService {
     }
     
     public function crear($miembroId, $fecha, $lugar = '', $pastor = '') {
-        // Verificar si el miembro ya tiene un bautizo registrado
+        
         $bautizoExistente = $this->obtenerPorMiembroId($miembroId);
         if ($bautizoExistente) {
-            return false; // Un miembro solo puede tener un bautizo
+            return false; 
         }
         
         $bautizo = new Bautizo(null, $miembroId, $fecha, $lugar, $pastor);
@@ -61,12 +61,12 @@ class BautizoService {
     }
     
     public function actualizar($id, $miembroId, $fecha, $lugar = '', $pastor = '') {
-        // Verificar si estamos cambiando el miembro y si el nuevo miembro ya tiene un bautizo
+        
         $bautizoActual = $this->obtenerPorId($id);
         if ($bautizoActual->getMiembroId() != $miembroId) {
             $bautizoExistente = $this->obtenerPorMiembroId($miembroId);
             if ($bautizoExistente) {
-                return false; // El nuevo miembro ya tiene un bautizo registrado
+                return false; 
             }
         }
         
@@ -100,7 +100,7 @@ class BautizoService {
             $data['pastor']
         );
         
-        // Si hay datos adicionales de miembro disponibles, agregamos una propiedad
+   
         if (isset($data['nombre']) && isset($data['apellido'])) {
             $bautizo->nombreMiembro = $data['nombre'] . ' ' . $data['apellido'];
         }

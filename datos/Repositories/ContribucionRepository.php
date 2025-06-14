@@ -129,7 +129,7 @@ class ContribucionRepository {
     }
     
     public function getTiposContribucion() {
-        // Obtiene todos los tipos de contribuciones distintos que existen en la base de datos
+        
         $query = "SELECT DISTINCT tipo FROM contribucion ORDER BY tipo";
         $stmt = $this->db->prepare($query);
         $stmt->execute();

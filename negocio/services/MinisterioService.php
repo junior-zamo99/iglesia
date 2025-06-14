@@ -61,9 +61,9 @@ class MinisterioService {
     }
     
     public function asignarMiembro($miembroId, $ministerioId, $fechaInicio) {
-        // Verificamos si ya existe la asignación
+       
         if ($this->ministerioRepository->verificarMiembroEnMinisterio($miembroId, $ministerioId)) {
-            return false; // Ya está asignado
+            return false; 
         }
         
         return $this->ministerioRepository->asignarMiembro($miembroId, $ministerioId, $fechaInicio);

@@ -1,5 +1,4 @@
 <?php
-// datos/repositories/MiembroRepository.php
 
 namespace Iglesia\Datos\Repositories;
 
@@ -11,7 +10,7 @@ class MiembroRepository {
     private $db;
     
     public function __construct() {
-        // Obtener la conexión a la base de datos
+       
        
         $this->db = Database::obtenerConexion();
     }

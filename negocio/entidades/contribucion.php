@@ -20,7 +20,7 @@ class Contribucion {
         $this->descripcion = $descripcion;
     }
     
-    // Getters
+    
     public function getId() {
         return $this->id;
     }
@@ -45,7 +45,7 @@ class Contribucion {
         return $this->descripcion;
     }
     
-    // Setters
+    
     public function setId($id) {
         $this->id = $id;
         return $this;
