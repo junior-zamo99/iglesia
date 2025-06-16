@@ -6,12 +6,17 @@ namespace Iglesia\Negocio\Services;
 use Iglesia\Datos\Repositories\ContribucionRepository;
 use Iglesia\Negocio\Entidades\Contribucion;
 use DateTime;
+use Iglesia\Negocio\Services\CalculadoraContribuciones;
+use Iglesia\Negocio\Strategies\MensualCalculoStrategy;
+use Iglesia\Negocio\Strategies\AnualCalculoStrategy;
+use Iglesia\Negocio\Strategies\PorTipoCalculoStrategy;
 
 class ContribucionService {
-    private $contribucionRepository;
-    
+    public $contribucionRepository;
+     private $calculadora;
     public function __construct() {
         $this->contribucionRepository = new ContribucionRepository();
+        $this->calculadora = new CalculadoraContribuciones();
     }
     
     public function obtenerTodas() {
@@ -147,4 +152,79 @@ class ContribucionService {
         
         return $errores;
     }
+
+
+
+ public function obtenerTotalesMensuales(int $mes = null, int $año = null): array {
+        $strategy = new MensualCalculoStrategy($this->contribucionRepository);
+        $this->calculadora->setStrategy($strategy);
+        
+        return $this->calculadora->calcular([
+            'mes' => $mes,
+            'año' => $año
+        ]);
+    }
+    
+    /**
+     * Obtiene totales anuales usando Strategy Pattern
+     */
+    public function obtenerTotalesAnuales(int $año = null): array {
+        $strategy = new AnualCalculoStrategy($this->contribucionRepository);
+        $this->calculadora->setStrategy($strategy);
+        
+        return $this->calculadora->calcular([
+            'año' => $año
+        ]);
+    }
+    
+    /**
+     * Obtiene totales por tipo usando Strategy Pattern
+     */
+    public function obtenerTotalesPorTipo(string $fechaInicio = null, string $fechaFin = null): array {
+        $strategy = new PorTipoCalculoStrategy($this->contribucionRepository);
+        $this->calculadora->setStrategy($strategy);
+        
+        return $this->calculadora->calcular([
+            'fecha_inicio' => $fechaInicio,
+            'fecha_fin' => $fechaFin
+        ]);
+    }
+    
+    /**
+     * Compara dos estrategias diferentes
+     */
+    public function compararEstrategias(string $estrategia1, string $estrategia2, array $parametros = []): array {
+        $resultado1 = $this->ejecutarEstrategia($estrategia1, $parametros);
+        $resultado2 = $this->ejecutarEstrategia($estrategia2, $parametros);
+        
+        return [
+            'comparacion' => [
+                $estrategia1 => $resultado1,
+                $estrategia2 => $resultado2
+            ],
+            'generado_en' => date('Y-m-d H:i:s')
+        ];
+    }
+    
+    private function ejecutarEstrategia(string $tipoEstrategia, array $parametros): array {
+        switch ($tipoEstrategia) {
+            case 'mensual':
+                return $this->obtenerTotalesMensuales($parametros['mes'] ?? null, $parametros['año'] ?? null);
+                
+            case 'anual':
+                return $this->obtenerTotalesAnuales($parametros['año'] ?? null);
+                
+            case 'por_tipo':
+                return $this->obtenerTotalesPorTipo($parametros['fecha_inicio'] ?? null, $parametros['fecha_fin'] ?? null);
+                
+            default:
+                throw new \InvalidArgumentException("Estrategia '$tipoEstrategia' no válida");
+        }
+    }
+
+       public function getContribucionRepository(): ContribucionRepository {
+        return $this->contribucionRepository;
+    }
+    
+
 }

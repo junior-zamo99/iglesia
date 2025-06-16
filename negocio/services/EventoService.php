@@ -1,19 +1,19 @@
 <?php
-// negocio/services/EventoService.php
 
 namespace Iglesia\Negocio\Services;
 
 use Iglesia\Datos\Repositories\EventoRepository;
+use Iglesia\Negocio\Observadores\PublicadorEvento;
 use Iglesia\Negocio\Entidades\Evento;
 use DateTime;
 
-class EventoService {
+class EventoService extends PublicadorEvento {
     private $eventoRepository;
     
     public function __construct() {
         $this->eventoRepository = new EventoRepository();
     }
-    
+
     public function obtenerTodos() {
         $eventosData = $this->eventoRepository->findAll();
         $eventos = [];
@@ -37,18 +37,65 @@ class EventoService {
     
     public function crear($nombre, $fecha, $ubicacion = '', $descripcion = '', $tipo = '') {
         $evento = new Evento(null, $nombre, $fecha, $ubicacion, $descripcion, $tipo);
-        return $this->eventoRepository->save($evento);
-    }
+        $resultado = $this->eventoRepository->save($evento);
+        
+        if ($resultado) {
+            $this->datosEventoActual = [
+                'id' => $evento->getId(),
+                'nombre' => $nombre,
+                'fecha' => $fecha,
+                'ubicacion' => $ubicacion,
+                'descripcion' => $descripcion,
+                'tipo' => $tipo
+            ];
+            $this->estadoPrincipal = 'evento_creado';
+            $this->notificarSuscriptores();
+        }
+        
+        return $resultado;
+    } 
     
     public function actualizar($id, $nombre, $fecha, $ubicacion = '', $descripcion = '', $tipo = '') {
         $evento = new Evento($id, $nombre, $fecha, $ubicacion, $descripcion, $tipo);
-        return $this->eventoRepository->update($evento);
+        $resultado = $this->eventoRepository->update($evento);
+        
+        if ($resultado) {
+            $this->datosEventoActual = [
+                'id' => $id,
+                'nombre' => $nombre,
+                'fecha' => $fecha,
+                'ubicacion' => $ubicacion,
+                'descripcion' => $descripcion,
+                'tipo' => $tipo
+            ];
+            $this->estadoPrincipal = 'evento_actualizado';
+            $this->notificarSuscriptores();
+        }
+        
+        return $resultado;
     }
     
     public function eliminar($id) {
-        return $this->eventoRepository->delete($id);
+        $datosEvento = $this->eventoRepository->findById($id);
+        $resultado = $this->eventoRepository->delete($id);
+        
+        if ($resultado && $datosEvento) {
+            $this->datosEventoActual = [
+                'id' => $id,
+                'nombre' => $datosEvento['nombre'],
+                'fecha' => $datosEvento['fecha'],
+                'ubicacion' => $datosEvento['ubicacion'],
+                'descripcion' => $datosEvento['descripcion'],
+                'tipo' => $datosEvento['tipo']
+            ];
+            $this->estadoPrincipal = 'evento_eliminado';
+            $this->notificarSuscriptores();
+        }
+        
+        return $resultado;
     }
     
+    // Resto de métodos sin cambios...
     public function obtenerProximosEventos($limite = 5) {
         $eventosData = $this->eventoRepository->getProximosEventos($limite);
         $eventos = [];
@@ -126,5 +173,8 @@ class EventoService {
         }
         
         return $errores;
+    }
+    
+    public function logicaNegocioPrincipal() {        
     }
 }

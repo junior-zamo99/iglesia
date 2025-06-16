@@ -19,6 +19,7 @@
                     <li><a href="/eventos">Eventos</a></li>
                     <li><a href="/bautizos">Bautizos</a></li>
                     <li><a href="/contribuciones">Contribuciones</a></li>
+                    <li><a href="/contribuciones/dashboard" class="nav-strategy">Strategy</a></li>
                 </ul>
             </nav>
         </div>

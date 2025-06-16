@@ -6,14 +6,22 @@ namespace Iglesia\Presentacion\Controllers;
 use DateTime;
 use Iglesia\Negocio\Services\EventoService;
 use Iglesia\Negocio\Services\MiembroService;
+use Iglesia\Negocio\Observadores\SuscriptorEmailEvento;
 
 class ControladorEvento {
     private $eventoService;
     private $miembroService;
+    private $publisher;
     
     public function __construct() {
         $this->eventoService = new EventoService();
         $this->miembroService = new MiembroService();
+        $this->configurarObservadores();
+    }
+
+    private function configurarObservadores() {
+        $suscriptorEmail = new SuscriptorEmailEvento('junior.zf.99@gmail.com');
+        $this->eventoService->suscribir($suscriptorEmail);
     }
     
     public function listar() {

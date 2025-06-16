@@ -39,6 +39,13 @@ return [
         '/contribuciones/eliminar' => ['Iglesia\Presentacion\Controllers\ControladorContribucion', 'eliminar'],
         '/contribuciones/ver' => ['Iglesia\Presentacion\Controllers\ControladorContribucion', 'ver'],
         '/contribuciones/buscar' => ['Iglesia\Presentacion\Controllers\ControladorContribucion', 'buscar'],
+
+      '/contribuciones/dashboard' => ['Iglesia\Presentacion\Controllers\ControladorContribucion', 'dashboard'],
+        '/contribuciones/strategy-mensual' => ['Iglesia\Presentacion\Controllers\ControladorContribucion', 'strategyMensual'],
+        '/contribuciones/strategy-anual' => ['Iglesia\Presentacion\Controllers\ControladorContribucion', 'strategyAnual'],
+        '/contribuciones/strategy-tipo' => ['Iglesia\Presentacion\Controllers\ControladorContribucion', 'strategyTipo'],
+        '/contribuciones/comparar' => ['Iglesia\Presentacion\Controllers\ControladorContribucion', 'compararEstrategias'],
+         '/contribuciones/strategy-personalizado' => ['Iglesia\Presentacion\Controllers\ControladorContribucion', 'strategyPersonalizado'],
     ],
     'POST' => [
         '/miembros/crear' => ['Iglesia\Presentacion\Controllers\ControladorMiembro', 'crear'],
